@@ -15,6 +15,8 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+    CELERY_BACKEND_URL = os.getenv('CELERY_BACKEND_URL')
 
 
 class TestingConfig(Config):

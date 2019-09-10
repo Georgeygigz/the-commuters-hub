@@ -8,8 +8,9 @@ __pycache__/
 
 # Distribution / packaging
 commuters-hub/
-
+redis-stable/
 .Python
+.vscode
 build/
 develop-eggs/
 dist/
