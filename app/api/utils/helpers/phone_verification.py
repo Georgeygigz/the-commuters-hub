@@ -1,11 +1,9 @@
 # app/api/utils/helpers/phone_verification.py
 
 # Standard library imports
-from dramatiq.brokers.redis import RedisBroker
 import os
 
 # Thirdparty library imports
-import dramatiq
 from flask_mail import Mail
 from flask_mail import Message
 from authy.api import AuthyApiClient
@@ -13,7 +11,6 @@ from flask import request, make_response, jsonify, session
 
 
 # Local application imports
-# from flask_dramatiq import Dramatiq
 from instance.config import AppConfig
 from app import create_app
 
@@ -22,12 +19,6 @@ mail = Mail(app)
 authy_api = AuthyApiClient(os.getenv('PRODUCTION_API_KEY'))
 
 
-
-broker = RedisBroker(url='redis: // localhost: 6379/0')
-dramatiq.set_broker(broker)
-
-
-# @dramatiq.actor
 def phone_verification_start(phone_number, country_code):
     print('<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>')
     print('>>>>>>>>>>>>>>>>>', phone_number, country_code)
@@ -43,7 +34,6 @@ def phone_verification_start(phone_number, country_code):
         return {'error': e}
 
 
-# @dramatiq.actor
 def phone_verification_check():
     try:
         request_payload = request.get_json(force=True)
@@ -59,7 +49,6 @@ def phone_verification_check():
         return {'error': e}
 
 
-@dramatiq.actor
 def send_mail():
     try:
         message = Message("Hello",

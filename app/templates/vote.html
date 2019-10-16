@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>Chat Room</title>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var socket = io.connect("http://0.0.0.0:8000");
+      $(document).ready(function() {
+        socket.on("connect", function() {
+          socket.send("User has connected!");
+        });
+
+        $("#vote1").on("click", function() {
+          socket.emit("vote", {
+            user_id: 1,
+            full_names: "George",
+            email: "email@gmail.com",
+            password: "Password@123",
+            phone_number: "+25473843443"
+          });
+        });
+
+        socket.on("all_users", function(results) {
+          var total_votes = results.users;
+          var one_pct = Math.round((results.results1 / total_votes) * 100);
+
+          $("#results1").css("width", total_votes + "%");
+        });
+      });
+    </script>
+
+    <button id="vote1">Vote 1</button>
+    <div id="results1">Hello</div>
+  </body>
+</html>
